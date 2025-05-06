@@ -1,32 +1,52 @@
 {
+  "parser": "@typescript-eslint/parser",
+  "extends": [
+    "airbnb",
+    "airbnb/hooks",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "plugins": ["@typescript-eslint"],
+  "parserOptions": {
+    "project": "./tsconfig.json",
+    "ecmaVersion": 2021,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true,
+      "restParams": true,
+      "spread": true
+    }
+  },
   "env": {
     "browser": true,
     "es2021": true,
     "node": true
   },
-  "extends": ["airbnb", "airbnb-typescript", "airbnb/hooks", "plugin:prettier/recommended"],
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "project": "./tsconfig.json"
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
   },
-  "plugins": ["@typescript-eslint", "prettier"],
   "rules": {
     "prettier/prettier": "error",
-    "react/react-in-jsx-scope": "off",
-    "import/prefer-default-export": "off",
-    "react/require-default-props": "off",
-    "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
-    "@typescript-eslint/type-annotation-spacing": [
+    "react/jsx-filename-extension": [1, { "extensions": [".tsx"] }],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "ts": "never",
+        "tsx": "never",
+        "js": "never",
+        "jsx": "never"
+      }
+    ],
+    "import/no-extraneous-dependencies": [
       "error",
       {
-        "before": false,
-        "after": true
+        "devDependencies": true
       }
-    ]
-  },
-  "settings": {
-    "import/resolver": {
-      "typescript": {}
-    }
+    ],
+    "react/react-in-jsx-scope": "off",
+    "@typescript-eslint/no-unused-vars": ["warn"]
   }
 }

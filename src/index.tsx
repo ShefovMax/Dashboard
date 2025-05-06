@@ -1,11 +1,19 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import './index.css';
 
-const App:React.FC = () => {
-  return <div>123112 2</div>;
-};
+function App(): React.JSX.Element {
+  return <div>2</div>;
+}
 
-ReactDOM.render(<App />, document.getElementById('app'));
+function test() {
+  return 0;
+}
+
+const container = document.getElementById('app');
+if (container) {
+  const root = createRoot(container);
+  root.render(<App />);
+}
 
 export default App;
