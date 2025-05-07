@@ -1,11 +1,57 @@
 {
   "presets": [
-    "@babel/preset-env", // Transpile modern JavaScript to older versions for compatibility
-    "@babel/preset-react", // Enable support for React JSX
+    [
+      "@babel/preset-env",
+      {
+        "modules": false,
+        "useBuiltIns": "usage",
+        "corejs": 3
+      }
+    ],
+    "@babel/preset-react",
     "@babel/preset-typescript"
   ],
   "plugins": [
-    "@babel/plugin-transform-runtime", // Optimize helper code reuse
-    "@babel/plugin-proposal-class-properties"
-  ]
+    [
+      "@babel/plugin-transform-runtime",
+      {
+        "corejs": 3,
+        "helpers": true,
+        "regenerator": true
+      }
+    ],
+    "@babel/plugin-proposal-class-properties",
+    [
+      "babel-plugin-import",
+      {
+        "libraryName": "@mui/material",
+        "libraryDirectory": "",
+        "camel2DashComponentName": false
+      },
+      "mui-material"
+    ],
+    [
+      "babel-plugin-import",
+      {
+        "libraryName": "@mui/icons-material",
+        "libraryDirectory": "",
+        "camel2DashComponentName": false
+      },
+      "mui-icons"
+    ],
+    [
+      "babel-plugin-import",
+      {
+        "libraryName": "lodash",
+        "libraryDirectory": "",
+        "camel2DashComponentName": false
+      },
+      "lodash-import"
+    ]
+  ],
+  "env": {
+    "production": {
+      "plugins": [["transform-react-remove-prop-types", { "removeImport": true }]]
+    }
+  }
 }

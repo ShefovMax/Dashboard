@@ -1,6 +1,7 @@
 import React from 'react';
-import { IconButton } from '@mui/material';
-import { Brightness7, Brightness4 } from '@mui/icons-material';
+import IconButton from '@mui/material/IconButton';
+import Brightness7 from '@mui/icons-material/Brightness7';
+import Brightness4 from '@mui/icons-material/Brightness4';
 
 import { useThemeMode } from '@app/providers/ThemeProvider';
 

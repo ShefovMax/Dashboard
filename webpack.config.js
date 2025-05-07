@@ -3,23 +3,82 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const TerserPlugin = require('terser-webpack-plugin');
 const isAnalyze = process.env.ANALYZE === 'true';
 
+// TODO: Разбить конфиг на прод и дев версии
+
 module.exports = {
-  mode: 'development',
+  mode: 'production',
   entry: {
     main: path.resolve(__dirname, './src/main.tsx')
   },
   output: {
     filename: '[name].bundle.js',
-    path: path.resolve(__dirname, './dist')
+    path: path.resolve(__dirname, './dist'),
+    clean: true
   },
-  devtool: 'inline-source-map',
+  devtool: false,
   devServer: {
     static: './dist',
     port: 3000,
     open: true,
-    hot: true
+    hot: true,
+    compress: true
+  },
+  optimization: {
+    usedExports: true,
+    sideEffects: true,
+    minimize: true,
+    splitChunks: {
+      chunks: 'all',
+      maxInitialRequests: 10,
+      maxAsyncRequests: 20,
+      minSize: 20 * 1024, // 20 KiB
+      maxSize: 244 * 1024, // 244 KiB
+
+      cacheGroups: {
+        mui: {
+          test: /[\\/]node_modules[\\/]@mui[\\/]/,
+          name: 'mui',
+          chunks: 'all',
+          enforce: true,
+          priority: 20
+        },
+        emotion: {
+          test: /[\\/]node_modules[\\/]@emotion[\\/]/,
+          name: 'emotion',
+          chunks: 'all',
+          enforce: true,
+          priority: 15
+        },
+        reactVendor: {
+          test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
+          name: 'react-vendors',
+          chunks: 'all',
+          enforce: true,
+          priority: 10
+        },
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all',
+          enforce: true,
+          priority: 0
+        }
+      }
+    },
+    minimize: true,
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          compress: {
+            unused: true,
+            dead_code: true
+          }
+        }
+      })
+    ]
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js', '.jsx'],
@@ -45,7 +104,7 @@ module.exports = {
       extensions: ['js', 'jsx', 'ts', 'tsx'],
       emitWarning: true
     }),
-    ...(isAnalyze ? [new BundleAnalyzerPlugin()] : [])
+    ...(isAnalyze ? [new BundleAnalyzerPlugin({ generateStatsFile: true })] : [])
   ],
   module: {
     rules: [
