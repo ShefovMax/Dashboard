@@ -25,11 +25,24 @@
   "settings": {
     "react": {
       "version": "detect"
+    },
+    "import/resolver": {
+      "typescript": {
+        "project": "./tsconfig.json"
+      }
     }
   },
   "rules": {
+    "import/prefer-default-export": "off",
     "prettier/prettier": "error",
-    "react/jsx-filename-extension": [1, { "extensions": [".tsx"] }],
+    "react/function-component-definition": [
+      "error",
+      {
+        "namedComponents": ["function-declaration", "arrow-function"],
+        "unnamedComponents": ["arrow-function"]
+      }
+    ],
+    "react/jsx-filename-extension": [1, { "extensions": [".tsx", ".ts"] }],
     "import/extensions": [
       "error",
       "ignorePackages",
@@ -47,6 +60,54 @@
       }
     ],
     "react/react-in-jsx-scope": "off",
-    "@typescript-eslint/no-unused-vars": ["warn"]
+    "@typescript-eslint/no-unused-vars": ["warn"],
+    // ===== Основные правила импортов =====
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "ts": "never",
+        "tsx": "never",
+        "js": "never",
+        "jsx": "never"
+      }
+    ],
+    "import/no-unresolved": "error", // Проверяет, что импорты существуют
+    "import/no-absolute-path": "error", // Запрещает абсолютные пути (если не настроены alias)
+    "import/no-useless-path-segments": ["error", { "noUselessIndex": true }], // Убирает лишние `/index` в путях
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": true, // Разрешает импорты из devDependencies (для тестов, сторибука и т.д.)
+        "optionalDependencies": false,
+        "peerDependencies": false
+      }
+    ],
+
+    // ===== Сортировка и порядок импортов =====
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          "builtin", // Встроенные модули (node:fs, node:path и т.д.)
+          "external", // Внешние зависимости (из node_modules)
+          "internal", // Внутренние пути (алиасы типа `@/components`)
+          "parent", // Родительские директории (`../`)
+          "sibling", // Файлы из той же директории (`./`)
+          "index" // index-файлы (`./index`)
+        ],
+        "pathGroups": [
+          {
+            "pattern": "@/**", // Алиасы (если используете, например, `@/components`)
+            "group": "internal"
+          },
+          {
+            "pattern": "~/**", // Другой вариант алиасов
+            "group": "internal"
+          }
+        ],
+        "newlines-between": "always" // Пустые строки между группами
+      }
+    ]
   }
 }

@@ -1,13 +1,26 @@
 {
   "compilerOptions": {
     "target": "ES6",
-    "module": "CommonJS",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "baseUrl": "src",
+    "paths": {
+      "@app/*": ["app/*"],
+      "@shared/*": ["shared/*"],
+      "@entities/*": ["entities/*"],
+      "@features/*": ["features/*"],
+      "@widgets/*": ["widgets/*"],
+      "@pages/*": ["pages/*"],
+      "@processes/*": ["processes/*"]
+    },
     "outDir": "./dist",
     "rootDir": "./src",
     "strict": true,
     "jsx": "react",
     "esModuleInterop": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "allowImportingTsExtensions": true,
+    "noEmit": true
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]

@@ -8,7 +8,7 @@ const isAnalyze = process.env.ANALYZE === 'true';
 module.exports = {
   mode: 'development',
   entry: {
-    main: path.resolve(__dirname, './src/index.tsx')
+    main: path.resolve(__dirname, './src/main.tsx')
   },
   output: {
     filename: '[name].bundle.js',
@@ -22,7 +22,16 @@ module.exports = {
     hot: true
   },
   resolve: {
-    extensions: ['.tsx', '.ts', '.js']
+    extensions: ['.tsx', '.ts', '.js', '.jsx'],
+    alias: {
+      '@app': path.resolve(__dirname, 'src/app'),
+      '@shared': path.resolve(__dirname, 'src/shared'),
+      '@entities': path.resolve(__dirname, 'src/entities'),
+      '@features': path.resolve(__dirname, 'src/features'),
+      '@widgets': path.resolve(__dirname, 'src/widgets'),
+      '@pages': path.resolve(__dirname, 'src/pages'),
+      '@processes': path.resolve(__dirname, 'src/processes')
+    }
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -46,12 +55,12 @@ module.exports = {
         use: ['babel-loader']
       },
       {
-        test: /\.tsx$/,
+        test: /\.(ts|tsx)$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/preset-react', '@babel/preset-typescript']
+            presets: ['@babel/preset-env', '@babel/preset-react', '@babel/preset-typescript']
           }
         }
       },
