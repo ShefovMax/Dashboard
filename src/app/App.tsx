@@ -1,13 +1,13 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
 
-import { AuthPage, DashboardPage } from '@pages/index';
+import RoutesList from './routes/Routes';
+import Header from './header/Header';
 
 const App = () => (
-  <Routes>
-    <Route path="/" element={<DashboardPage />} />
-    <Route path="/auth" element={<AuthPage />} />
-  </Routes>
+  <>
+    <Header />
+    <RoutesList />
+  </>
 );
 
 export default App;

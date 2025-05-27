@@ -6,7 +6,6 @@ import { BrowserRouter } from 'react-router-dom';
 import { store } from '@app/store.ts';
 import { AppThemeProvider } from '@app/providers/ThemeProvider';
 import App from '@app/App';
-import './index.css';
 
 const container = document.getElementById('root');
 

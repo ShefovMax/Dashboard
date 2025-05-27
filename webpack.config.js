@@ -9,7 +9,7 @@ const isAnalyze = process.env.ANALYZE === 'true';
 // TODO: Разбить конфиг на прод и дев версии
 
 module.exports = {
-  mode: 'production',
+  mode: 'development',
   entry: {
     main: path.resolve(__dirname, './src/main.tsx')
   },
@@ -24,7 +24,13 @@ module.exports = {
     port: 3000,
     open: true,
     hot: true,
-    compress: true
+    compress: true,
+    client: {
+      overlay: {
+        warnings: false,
+        errors: true
+      }
+    }
   },
   optimization: {
     usedExports: true,
@@ -32,10 +38,10 @@ module.exports = {
     minimize: true,
     splitChunks: {
       chunks: 'all',
-      maxInitialRequests: 10,
-      maxAsyncRequests: 20,
-      minSize: 20 * 1024, // 20 KiB
-      maxSize: 244 * 1024, // 244 KiB
+      // maxInitialRequests: 10,
+      // maxAsyncRequests: 20,
+      // minSize: 20 * 1024, // 20 KiB
+      // maxSize: 244 * 1024, // 244 KiB
 
       cacheGroups: {
         mui: {
@@ -45,13 +51,7 @@ module.exports = {
           enforce: true,
           priority: 20
         },
-        emotion: {
-          test: /[\\/]node_modules[\\/]@emotion[\\/]/,
-          name: 'emotion',
-          chunks: 'all',
-          enforce: true,
-          priority: 15
-        },
+
         reactVendor: {
           test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
           name: 'react-vendors',
@@ -124,16 +124,33 @@ module.exports = {
         }
       },
       {
-        test: /\.css$/i,
-        use: [MiniCssExtractPlugin.loader, 'css-loader']
+        test: /\.module\.css$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              modules: {
+                namedExport: false
+              }
+            }
+          }
+        ]
       },
+      // для prod окружения
+      // {
+      //   test: /\.css$/i,
+      //   exclude: /\.module\.css$/,
+      //   use: [MiniCssExtractPlugin.loader, 'css-loader']
+      // },
       {
         test: /\.(png|svg|jpg|gif)$/i,
         type: 'asset/resource'
       },
       {
-        test: /\.(woff|woff2|eot|ttf|otf)$/i,
-        type: 'asset/resource'
+        test: /\.(ttf|otf|eot|woff|woff2)$/,
+        type: 'asset/resource',
+        exclude: /MaterialIcons-Regular\.ttf$/ // <- ОТКЛЮЧАЕМ загрузку
       }
     ]
   }
