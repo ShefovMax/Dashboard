@@ -1,0 +1,12 @@
+.toolbar {
+  position: absolute;
+  top: 15px;
+  background-color: rgba(0, 0, 0, 0.322);
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.list {
+  display: flex;
+  padding: 0 !important;
+}

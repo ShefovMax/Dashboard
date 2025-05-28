@@ -7,6 +7,9 @@ const App = () => (
   <>
     <Header />
     <RoutesList />
+    <footer style={{ textAlign: 'center', verticalAlign: 'center', padding: '10px 0' }}>
+      Made by Max Shefov 2025
+    </footer>
   </>
 );
 

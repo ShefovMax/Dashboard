@@ -1,18 +1,17 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
-import Button from '@shared/button';
+import Canvas from '@entities/canvas/ui/Canvas';
+import Toolbar from '@entities/toolbar/ui/Index';
+
+import styles from './dashboard.module.css';
 
 const Dashboard = () => {
-  const alarm = () => {
-    console.log('clicked');
-  };
+  const dashboardRef = useRef<HTMLDivElement>(null);
 
   return (
-    <div>
-      Dashboard
-      <Button variant="text" onClick={alarm}>
-        Button
-      </Button>
+    <div className={styles.container} ref={dashboardRef}>
+      <Canvas containerRef={dashboardRef} />
+      <Toolbar />
     </div>
   );
 };

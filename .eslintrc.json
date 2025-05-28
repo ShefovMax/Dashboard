@@ -36,6 +36,8 @@
     "import/prefer-default-export": "off",
     "react/require-default-props": "off",
     "prettier/prettier": "error",
+    "consistent-return": "off",
+    "no-param-reassign": ["error", { "props": true, "ignorePropertyModificationsFor": ["state"] }],
     "react/function-component-definition": [
       "error",
       {
