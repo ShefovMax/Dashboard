@@ -6,6 +6,8 @@ import { BrowserRouter } from 'react-router-dom';
 import { store } from '@app/store.ts';
 import { AppThemeProvider } from '@app/providers/ThemeProvider';
 import App from '@app/App';
+import './colors.css';
+import { ZoomBlocker } from '@shared/lib/ZoomBlocker';
 
 const container = document.getElementById('root');
 
@@ -15,6 +17,7 @@ if (container) {
     <Provider store={store}>
       <BrowserRouter>
         <AppThemeProvider>
+          <ZoomBlocker />
           <App />
         </AppThemeProvider>
       </BrowserRouter>

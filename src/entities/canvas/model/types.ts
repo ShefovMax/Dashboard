@@ -16,4 +16,5 @@ export interface CanvasElement {
   points?: CanvasPoint[];
   canvasWidth: number;
   canvasHeight: number;
+  src?: string;
 }

@@ -7,7 +7,6 @@ export const lightTheme = createTheme({
   components: {
     MuiIcon: {
       defaultProps: {
-        // Отключаем использование шрифтовых иконок
         baseClassName: undefined
       }
     }
@@ -21,7 +20,6 @@ export const darkTheme = createTheme({
   components: {
     MuiIcon: {
       defaultProps: {
-        // Отключаем использование шрифтовых иконок
         baseClassName: undefined
       }
     }

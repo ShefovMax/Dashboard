@@ -124,6 +124,11 @@ module.exports = {
         }
       },
       {
+        test: /\.css$/,
+        exclude: /\.module\.css$/,
+        use: ['style-loader', 'css-loader']
+      },
+      {
         test: /\.module\.css$/,
         use: [
           'style-loader',
@@ -137,20 +142,13 @@ module.exports = {
           }
         ]
       },
-      // для prod окружения
-      // {
-      //   test: /\.css$/i,
-      //   exclude: /\.module\.css$/,
-      //   use: [MiniCssExtractPlugin.loader, 'css-loader']
-      // },
       {
         test: /\.(png|svg|jpg|gif)$/i,
         type: 'asset/resource'
       },
       {
         test: /\.(ttf|otf|eot|woff|woff2)$/,
-        type: 'asset/resource',
-        exclude: /MaterialIcons-Regular\.ttf$/ // <- ОТКЛЮЧАЕМ загрузку
+        type: 'asset/resource'
       }
     ]
   }

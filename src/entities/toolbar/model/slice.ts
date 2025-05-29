@@ -5,7 +5,7 @@ import { ToolbarState, Tool } from './types';
 const initialState: ToolbarState = {
   tool: 'pen',
   color: '#400',
-  lineWidth: 25,
+  lineWidth: 15,
   fontSize: 14
 };
 
@@ -28,5 +28,5 @@ const toolbarSlice = createSlice({
   }
 });
 
-export const { changeTool } = toolbarSlice.actions;
+export const { changeTool, changeColor, changeFontSize, changeLineWidth } = toolbarSlice.actions;
 export default toolbarSlice.reducer;

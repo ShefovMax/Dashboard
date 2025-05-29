@@ -28,6 +28,7 @@ export const AppThemeProvider = ({ children }: { children: React.ReactNode }) =>
 
   useEffect(() => {
     localStorage.setItem('theme', mode);
+    document.documentElement.setAttribute('data-theme', mode);
   }, [mode]);
 
   const contextValue = useMemo(

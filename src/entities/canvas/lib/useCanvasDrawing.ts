@@ -25,21 +25,53 @@ export function useCanvasDrawing(canvasRef: React.RefObject<HTMLCanvasElement>) 
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     elements.forEach((el) => {
-      if (el.type === 'line' && el.points && el.points.length > 0) {
-        ctx.beginPath();
-        ctx.lineCap = 'round';
-        ctx.strokeStyle = el.color ?? '#000';
-        ctx.lineWidth = el.lineWidth ?? 1;
+      switch (el.type) {
+        case 'image':
+          if (!el.src) return;
+          // eslint-disable-next-line no-case-declarations
+          const img = new Image();
+          img.src = el.src;
+          img.onload = () => {
+            ctx.drawImage(img, el.x ?? 0, el.y ?? 0, el.width ?? 100, el.height ?? 100);
+          };
+          break;
+        case 'line': {
+          if (el.points && el.points.length > 0) {
+            ctx.beginPath();
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = el.color ?? '#000';
+            ctx.lineWidth = el.lineWidth ?? 1;
 
-        const start = el.points[0];
-        ctx.moveTo(start.x * canvas.width, start.y * canvas.height);
+            const start = el.points[0];
+            ctx.moveTo(start.x * canvas.width, start.y * canvas.height);
 
-        el.points.slice(1).forEach((point) => {
-          ctx.lineTo(point.x * canvas.width, point.y * canvas.height);
-        });
+            el.points.slice(1).forEach((point) => {
+              ctx.lineTo(point.x * canvas.width, point.y * canvas.height);
+            });
 
-        ctx.stroke();
+            ctx.stroke();
+          }
+          break;
+        }
+        default:
+          break;
       }
+
+      // if (el.type === 'line' && el.points && el.points.length > 0) {
+      //   ctx.beginPath();
+      //   ctx.lineCap = 'round';
+      //   ctx.strokeStyle = el.color ?? '#000';
+      //   ctx.lineWidth = el.lineWidth ?? 1;
+
+      //   const start = el.points[0];
+      //   ctx.moveTo(start.x * canvas.width, start.y * canvas.height);
+
+      //   el.points.slice(1).forEach((point) => {
+      //     ctx.lineTo(point.x * canvas.width, point.y * canvas.height);
+      //   });
+
+      //   ctx.stroke();
+      // }
     });
   }, [canvasRef, elements]);
 

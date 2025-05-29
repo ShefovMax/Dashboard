@@ -1,7 +1,9 @@
 {
   "name": "Dashboard",
   "author": "Max Shefov",
-  "sideEffects": false,
+  "sideEffects": [
+    "*.css"
+  ],
   "devDependencies": {
     "@babel/core": "^7.27.1",
     "@babel/node": "^7.27.1",
