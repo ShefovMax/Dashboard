@@ -4,8 +4,8 @@ import { ToolbarState, Tool } from './types';
 
 const initialState: ToolbarState = {
   tool: 'pen',
-  color: '#400',
-  lineWidth: 15,
+  color: '#000',
+  lineWidth: 10,
   fontSize: 14
 };
 
