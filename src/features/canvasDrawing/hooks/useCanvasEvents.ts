@@ -19,6 +19,19 @@ export function useCanvasEvents(
   const draggingId = useRef<string | null>(null);
   const dragOffset = useRef<CanvasPoint | null>(null);
 
+  // Получаем все ранее нарисованные элементы с сервера
+  useEffect(() => {
+    const handleInit = (initialElements: CanvasElement[]) => {
+      initialElements.forEach((el) => dispatch(addElement(el)));
+    };
+
+    socket.on('init', handleInit);
+
+    return () => {
+      socket.off('init', handleInit);
+    };
+  }, [dispatch]);
+
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas?.getContext('2d');
