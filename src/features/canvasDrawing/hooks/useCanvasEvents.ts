@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 
 import { addElement, updateElement } from '@entities/canvas/model/slice';
 import { CanvasElement, CanvasPoint } from '@entities/canvas/model/types';
+import { socket } from '@shared/socket';
 
 // Подписываемся на мышиные события и вызываем диспатчи
 export function useCanvasEvents(
@@ -97,20 +98,21 @@ export function useCanvasEvents(
         // const canvas = canvasRef.current;
         if (!canvas) return;
 
-        dispatch(
-          addElement({
-            id: crypto.randomUUID(),
-            type: 'line',
-            points: points.current.map((p) => ({
-              x: p.x / canvas.width,
-              y: p.y / canvas.height
-            })),
-            lineWidth,
-            color: tool === 'eraser' ? '#fff' : color,
-            canvasWidth: canvas.width,
-            canvasHeight: canvas.height
-          })
-        );
+        const normalizedElement: CanvasElement = {
+          id: crypto.randomUUID(),
+          type: 'line',
+          points: points.current.map((p) => ({
+            x: p.x / canvas.width,
+            y: p.y / canvas.height
+          })),
+          lineWidth,
+          color: tool === 'eraser' ? '#fff' : color,
+          canvasWidth: canvas.width,
+          canvasHeight: canvas.height
+        };
+
+        dispatch(addElement(normalizedElement));
+        socket.emit('draw', normalizedElement);
       }
     };
 
@@ -126,4 +128,18 @@ export function useCanvasEvents(
       canvas.removeEventListener('mouseleave', handleMouseUpOrLeave);
     };
   }, [canvasRef, elements, dispatch, color, lineWidth, tool]);
+
+  useEffect(() => {
+    const handleRemoteDraw = (data: CanvasElement) => {
+      dispatch(addElement(data));
+    };
+
+    // Подписываемся на draw
+    socket.on('draw', handleRemoteDraw);
+
+    // Чистим подписку при размонтировании
+    return () => {
+      socket.off('draw', handleRemoteDraw);
+    };
+  }, [dispatch]);
 }

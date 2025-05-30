@@ -1,4 +1,3 @@
-import { useDispatch, useSelector } from 'react-redux';
 import type { Dispatch } from 'redux';
 
 import { addElement } from '@entities/canvas/model/slice';
